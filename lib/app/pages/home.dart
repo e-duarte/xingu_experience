@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xingu_experience/app/models/city.dart';
-import 'package:xingu_experience/app/widgets/additional_service_button.dart';
-import 'package:xingu_experience/app/widgets/circle_button.dart';
+import 'package:xingu_experience/app/widgets/buttons.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -142,39 +141,74 @@ class _HomeState extends State<Home> {
         child: ListView(
           children: [
             SizedBox(
-                // color: Colors.amber,
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      // color: Colors.amber,
-                      child: Image.network(
-                        cities[index].coverPhoto,
-                        fit: BoxFit.cover,
-                      ),
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: Image.network(
+                      cities[index].coverPhoto,
+                      fit: BoxFit.cover,
                     ),
-                    Column(
+                  ),
+                  Column(
+                    children: [
+                      Expanded(
+                        child: bar(),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: cityName(),
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: additionalServices(),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(right: 30, left: 30, top: 20),
+              // color: Colors.amber,
+              // height: MediaQuery.of(context).size.height * 0.2,
+              child: Column(
+                children: [
+                  SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: bar(),
-                        ),
-                        Container(
-                          // color: Colors.blueAccent,
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: cityName(),
-                        ),
-                        Expanded(
-                          child: Container(
-                            // color: Colors.redAccent,
-                            // height: MediaQuery.of(context).size.height * 0.7,
-                            child: additionalServices(),
+                          child: Text(
+                            cities[index].descripition,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.justify,
+                            softWrap: false,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  ],
-                ))
+                  ),
+                  SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ReadMoreButton(
+                          backgroundColor: 0xFF000000,
+                          callback: () {},
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
