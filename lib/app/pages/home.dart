@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xingu_experience/app/models/city.dart';
-import 'package:xingu_experience/app/models/service.dart';
+import 'package:xingu_experience/app/services/city_service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
 import 'package:xingu_experience/app/widgets/service_card.dart';
 
@@ -12,75 +12,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<City> cities = [
-    City(
-      city: 'Altamira',
-      state: 'Pará',
-      descripition:
-          'Vitória do xingu é uma cidade do interior do estado do pará. Nela é sediada a terceira maior hidrelétrica do brasil, Usina de Belo Monte',
-      coverPhoto: 'foto',
-      photos: [],
-      services: [],
-    ),
-    City(
-      city: 'Vitória do Xingu',
-      state: 'Pará',
-      descripition:
-          'Vitória do xingu é uma cidade do interior do estado do pará. Nela é sediada a terceira maior hidrelétrica do brasil, Usina de Belo Monte',
-      coverPhoto:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Rio_Xingu%2C_Vit%C3%B3ria_do_Xingu_-_Par%C3%A1.jpg/1024px-Rio_Xingu%2C_Vit%C3%B3ria_do_Xingu_-_Par%C3%A1.jpg',
-      photos: [],
-      services: [
-        Service(
-          name: 'Pesca',
-          description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-          photos: [],
-          packages: [],
-          cardTitle: 'Explore a pesca na região',
-          cardDescription:
-              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
-          coverPhoto:
-              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
-        ),
-        Service(
-          name: 'Pesca',
-          description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-          photos: [],
-          packages: [],
-          cardTitle: 'Explore a pesca na região',
-          cardDescription:
-              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
-          coverPhoto:
-              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
-        ),
-        Service(
-          name: 'Pesca',
-          description:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-          photos: [],
-          packages: [],
-          cardTitle: 'Explore a pesca na região',
-          cardDescription:
-              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
-          coverPhoto:
-              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
-        )
-      ],
-    ),
-    City(
-      city: 'Senador José Porfírio',
-      state: 'Pará',
-      descripition:
-          'Vitória do xingu é uma cidade do interior do estado do pará. Nela é sediada a terceira maior hidrelétrica do brasil, Usina de Belo Monte',
-      coverPhoto: 'foto',
-      photos: [],
-      services: [],
-    )
-  ];
+  int index = 0;
 
-  int index = 1;
+  Future<List<City>> _getAllCities() async {
+    List<City> cities = await CityService().all();
+    return cities;
+  }
 
   Widget bar() {
     return SizedBox(
@@ -110,14 +47,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget cityName() {
+  Widget cityName(City city) {
     return SizedBox(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              cities[index].state.toUpperCase(),
+              city.state.toUpperCase(),
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -125,7 +62,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Text(
-              cities[index].city.toUpperCase(),
+              city.city.toUpperCase(),
               style: const TextStyle(
                 fontSize: 30,
                 color: Colors.white,
@@ -175,98 +112,118 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: SizedBox(
-        child: ListView(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(cities[index].coverPhoto),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: bar(),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: cityName(),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: additionalServices(),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 30, left: 30, top: 20),
-              // height: MediaQuery.of(context).size.height * 0.2,
-              child: Column(
-                children: [
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            cities[index].descripition,
-                            style: const TextStyle(
-                              fontSize: 16,
+      body: Center(
+        child: SizedBox(
+          child: FutureBuilder<List<City>>(
+            future: _getAllCities(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                List<City> cities = snapshot.data ?? [];
+
+                return ListView(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(cities[index].coverPhoto),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: bar(),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: cityName(cities[index]),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: additionalServices(),
                             ),
-                            textAlign: TextAlign.justify,
-                            softWrap: false,
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(right: 30, left: 30, top: 20),
+                      // height: MediaQuery.of(context).size.height * 0.2,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    cities[index].descripition,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                    softWrap: false,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ReadMoreButton(
+                                  backgroundColor: 0xFF000000,
+                                  fontColor: 0xFFFFFFFF,
+                                  callback: () {},
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      // color: Colors.amber,
+                      padding: const EdgeInsets.only(
+                          right: 15, left: 15, bottom: 10),
+                      child: const Text(
+                        'EXPLORAR',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    ...cities[index].services.map(
+                          (e) => Container(
+                            // color: Colors.blue,
+                            padding: const EdgeInsets.only(
+                                right: 15, left: 15, bottom: 10),
+                            child: ServiceCard(
+                              title: e.cardTitle,
+                              subtitle: e.cardDescription,
+                              coverPhoto: e.coverPhoto,
+                              callback: () {},
+                            ),
                           ),
                         ),
-                      ],
+                  ],
+                );
+              } else {
+                return const Material(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
                     ),
                   ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ReadMoreButton(
-                          backgroundColor: 0xFF000000,
-                          fontColor: 0xFFFFFFFF,
-                          callback: () {},
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              // color: Colors.amber,
-              padding: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
-              child: const Text(
-                'EXPLORAR',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-            ...cities[index].services.map(
-                  (e) => Container(
-                    // color: Colors.blue,
-                    padding:
-                        const EdgeInsets.only(right: 15, left: 15, bottom: 10),
-                    child: ServiceCard(
-                      title: e.cardTitle,
-                      subtitle: e.cardDescription,
-                      coverPhoto: e.coverPhoto,
-                      callback: () {},
-                    ),
-                  ),
-                ),
-          ],
+                );
+              }
+            },
+          ),
         ),
       ),
-    ));
+    );
   }
 }
