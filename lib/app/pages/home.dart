@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:xingu_experience/app/models/city.dart';
+import 'package:xingu_experience/app/models/service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
+import 'package:xingu_experience/app/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,7 +30,44 @@ class _HomeState extends State<Home> {
       coverPhoto:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Rio_Xingu%2C_Vit%C3%B3ria_do_Xingu_-_Par%C3%A1.jpg/1024px-Rio_Xingu%2C_Vit%C3%B3ria_do_Xingu_-_Par%C3%A1.jpg',
       photos: [],
-      services: [],
+      services: [
+        Service(
+          name: 'Pesca',
+          description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+          photos: [],
+          packages: [],
+          cardTitle: 'Explore a pesca na região',
+          cardDescription:
+              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
+          coverPhoto:
+              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
+        ),
+        Service(
+          name: 'Pesca',
+          description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+          photos: [],
+          packages: [],
+          cardTitle: 'Explore a pesca na região',
+          cardDescription:
+              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
+          coverPhoto:
+              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
+        ),
+        Service(
+          name: 'Pesca',
+          description:
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+          photos: [],
+          packages: [],
+          cardTitle: 'Explore a pesca na região',
+          cardDescription:
+              'Encontre os melhores pontos de pesca com os nossos guias parceiros',
+          coverPhoto:
+              'https://fishingbooker.com/blog/media/2023/04/Walleye-hooked.jpg',
+        )
+      ],
     ),
     City(
       city: 'Senador José Porfírio',
@@ -140,39 +179,33 @@ class _HomeState extends State<Home> {
       child: SizedBox(
         child: ListView(
           children: [
-            SizedBox(
+            Container(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Stack(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(cities[index].coverPhoto),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
                 children: [
+                  Expanded(
+                    child: bar(),
+                  ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: Image.network(
-                      cities[index].coverPhoto,
-                      fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: cityName(),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: additionalServices(),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      Expanded(
-                        child: bar(),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: cityName(),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: additionalServices(),
-                        ),
-                      )
-                    ],
-                  ),
+                  )
                 ],
               ),
             ),
             Container(
               padding: const EdgeInsets.only(right: 30, left: 30, top: 20),
-              // color: Colors.amber,
               // height: MediaQuery.of(context).size.height * 0.2,
               child: Column(
                 children: [
@@ -201,6 +234,7 @@ class _HomeState extends State<Home> {
                       children: [
                         ReadMoreButton(
                           backgroundColor: 0xFF000000,
+                          fontColor: 0xFFFFFFFF,
                           callback: () {},
                         ),
                       ],
@@ -209,6 +243,27 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+            Container(
+              // color: Colors.amber,
+              padding: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
+              child: const Text(
+                'EXPLORAR',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            ...cities[index].services.map(
+                  (e) => Container(
+                    // color: Colors.blue,
+                    padding:
+                        const EdgeInsets.only(right: 15, left: 15, bottom: 10),
+                    child: ServiceCard(
+                      title: e.cardTitle,
+                      subtitle: e.cardDescription,
+                      coverPhoto: e.coverPhoto,
+                      callback: () {},
+                    ),
+                  ),
+                ),
           ],
         ),
       ),

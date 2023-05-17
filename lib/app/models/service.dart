@@ -5,6 +5,7 @@ class Service {
   final List<String> packages;
   final String cardTitle;
   final String cardDescription;
+  final String coverPhoto;
 
   Service({
     required this.name,
@@ -13,5 +14,6 @@ class Service {
     required this.packages,
     required this.cardTitle,
     required this.cardDescription,
+    required this.coverPhoto,
   });
 }

@@ -46,12 +46,12 @@ class AdditionalServiceButton extends StatelessWidget {
                 Image.asset(
                   iconPath,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Text(
                   text,
-                  style: TextStyle(color: Colors.black, fontSize: 13),
+                  style: const TextStyle(color: Colors.black, fontSize: 13),
                 ),
               ],
             )),
@@ -104,11 +104,13 @@ typedef ReadMoreButtonCallback = void Function();
 class ReadMoreButton extends StatelessWidget {
   const ReadMoreButton({
     required this.backgroundColor,
+    required this.fontColor,
     required this.callback,
     Key? key,
   }) : super(key: key);
 
   final int backgroundColor;
+  final int fontColor;
   final ReadMoreButtonCallback callback;
   @override
   Widget build(BuildContext context) {
@@ -127,9 +129,12 @@ class ReadMoreButton extends StatelessWidget {
             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(5)),
             backgroundColor: MaterialStateProperty.all(Color(backgroundColor)),
           ),
-          child: const Text(
+          child: Text(
             'Leia mais',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              color: Color(fontColor),
+            ),
           ),
         ),
         // width: containerSize,
