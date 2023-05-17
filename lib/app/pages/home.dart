@@ -12,14 +12,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int index = 0;
+  int selectedCity = 1;
 
   Future<List<City>> _getAllCities() async {
     List<City> cities = await CityService().all();
     return cities;
   }
 
-  Widget bar() {
+  Widget bar(List<City> cities) {
     return SizedBox(
       // color: Colors.greenAccent,
       child: Row(
@@ -28,7 +28,39 @@ class _HomeState extends State<Home> {
           const SizedBox(
             width: 7.0,
           ),
-          CircleButton(iconPath: 'assets/icons/map.png', callback: () {}),
+          CircleButton(
+            iconPath: 'assets/icons/map.png',
+            callback: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Qual cidade você deseja explorar?'),
+                    content: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: ListView.separated(
+                        itemCount: cities.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(cities[index].city),
+                            onTap: () {
+                              setState(() {
+                                selectedCity = index;
+                                Navigator.pop(context);
+                              });
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           Expanded(
             child: Align(
               alignment: FractionalOffset.topRight,
@@ -126,18 +158,18 @@ class _HomeState extends State<Home> {
                       height: MediaQuery.of(context).size.height * 0.4,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(cities[index].coverPhoto),
+                          image: NetworkImage(cities[selectedCity].coverPhoto),
                           fit: BoxFit.cover,
                         ),
                       ),
                       child: Column(
                         children: [
                           Expanded(
-                            child: bar(),
+                            child: bar(cities),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
-                            child: cityName(cities[index]),
+                            child: cityName(cities[selectedCity]),
                           ),
                           Expanded(
                             child: Container(
@@ -159,7 +191,7 @@ class _HomeState extends State<Home> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    cities[index].descripition,
+                                    cities[selectedCity].descripition,
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
@@ -196,7 +228,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
-                    ...cities[index].services.map(
+                    ...cities[selectedCity].services.map(
                           (e) => Container(
                             // color: Colors.blue,
                             padding: const EdgeInsets.only(

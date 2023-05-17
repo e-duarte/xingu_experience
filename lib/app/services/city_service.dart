@@ -1,6 +1,5 @@
 import 'package:xingu_experience/app/models/city.dart';
 import 'package:xingu_experience/app/models/service.dart';
-import 'dart:io';
 
 class CityService {
   Future<List<City>> all() async {
@@ -72,7 +71,7 @@ class CityService {
       )
     ];
 
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 1));
     return cities;
   }
 
