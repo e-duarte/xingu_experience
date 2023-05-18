@@ -4,14 +4,14 @@ import 'package:xingu_experience/app/services/city_service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
 import 'package:xingu_experience/app/widgets/service_card.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   int selectedCity = 1;
 
   Future<List<City>> _getAllCities() async {
@@ -65,7 +65,9 @@ class _HomeState extends State<Home> {
             child: Align(
               alignment: FractionalOffset.topRight,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/userpage');
+                },
                 icon: const CircleAvatar(
                   backgroundImage: NetworkImage(
                       'https://img.freepik.com/fotos-gratis/viajante-de-homem-com-mochila-montanhismo-viagens-conceito-de-estilo-de-vida_1150-9246.jpg'),
@@ -116,7 +118,9 @@ class _HomeState extends State<Home> {
             iconPath: 'assets/icons/hotel.png',
             text: 'Hotéis',
             backgroundColor: 0xFFFDB90B,
-            callback: () {},
+            callback: () {
+              Navigator.pushNamed(context, '/hotelpage');
+            },
           ),
           const SizedBox(
             width: 10,
@@ -125,7 +129,9 @@ class _HomeState extends State<Home> {
             iconPath: 'assets/icons/restaurant.png',
             text: 'Restaurantes',
             backgroundColor: 0xFF41A852,
-            callback: () {},
+            callback: () {
+              Navigator.pushNamed(context, '/restaurantpage');
+            },
           ),
           const SizedBox(
             width: 10,
@@ -134,7 +140,9 @@ class _HomeState extends State<Home> {
             iconPath: 'assets/icons/event.png',
             text: 'Eventos',
             backgroundColor: 0xFF45C6EF,
-            callback: () {},
+            callback: () {
+              Navigator.pushNamed(context, '/eventpage');
+            },
           )
         ],
       ),
@@ -237,7 +245,9 @@ class _HomeState extends State<Home> {
                               title: e.cardTitle,
                               subtitle: e.cardDescription,
                               coverPhoto: e.coverPhoto,
-                              callback: () {},
+                              callback: () {
+                                Navigator.pushNamed(context, '/servicepage');
+                              },
                             ),
                           ),
                         ),
