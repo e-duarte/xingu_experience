@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xingu_experience/app/models/city.dart';
+import 'package:xingu_experience/app/models/city_state.dart';
 import 'package:xingu_experience/app/services/city_service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
 import 'package:xingu_experience/app/widgets/service_card.dart';
@@ -12,13 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedCity = 1;
-
-  Future<List<City>> _getAllCities() async {
-    List<City> cities = await CityService().all();
-    return cities;
-  }
-
   Widget bar(List<City> cities) {
     return SizedBox(
       // color: Colors.greenAccent,
@@ -34,28 +29,35 @@ class _HomePageState extends State<HomePage> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Qual cidade você deseja explorar?'),
-                    content: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: ListView.separated(
-                        itemCount: cities.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(cities[index].city),
-                            onTap: () {
-                              setState(() {
-                                selectedCity = index;
-                                Navigator.pop(context);
-                              });
+                  return Consumer<CityState>(
+                    builder: (context, cityState, child) {
+                      return AlertDialog(
+                        title: const Text('Qual cidade você deseja explorar?'),
+                        content: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          child: ListView.separated(
+                            itemCount: cities.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(cities[index].city),
+                                onTap: () {
+                                  cityState.updateCity(cities[index]);
+                                  Navigator.pop(context);
+                                  // setState(() {
+                                  //   selectedCity = index;
+
+                                  //   Navigator.pop(context);
+                                  // });
+                                },
+                              );
                             },
-                          );
-                        },
-                        separatorBuilder: (context, index) => const Divider(
-                          color: Colors.black,
+                            separatorBuilder: (context, index) => const Divider(
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               );
@@ -154,89 +156,94 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          child: FutureBuilder<List<City>>(
-            future: _getAllCities(),
-            builder: (context, snapshot) {
+          child: FutureBuilder<CityState>(
+            future: CityService().all().then((value) {
+              Provider.of<CityState>(context, listen: false).cities = value;
+              return Provider.of<CityState>(context, listen: false);
+            }),
+            builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                List<City> cities = snapshot.data ?? [];
-
-                return ListView(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(cities[selectedCity].coverPhoto),
-                          fit: BoxFit.cover,
+                // CityState cityState = snapshot.data!;
+                return Consumer<CityState>(
+                  builder: (context, cityState, child) {
+                    return ListView(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(cityState.city.coverPhoto),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: bar(cityState.cities),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                                child: cityName(cityState.city),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: additionalServices(),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: bar(cities),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: cityName(cities[selectedCity]),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: additionalServices(),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding:
-                          const EdgeInsets.only(right: 30, left: 30, top: 20),
-                      // height: MediaQuery.of(context).size.height * 0.2,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    cities[selectedCity].descripition,
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                        Container(
+                          padding: const EdgeInsets.only(
+                              right: 30, left: 30, top: 20),
+                          // height: MediaQuery.of(context).size.height * 0.2,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        cityState.city.descripition,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                        softWrap: false,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                    textAlign: TextAlign.justify,
-                                    softWrap: false,
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ReadMoreButton(
+                                      backgroundColor: 0xFF000000,
+                                      fontColor: 0xFFFFFFFF,
+                                      callback: () {},
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ReadMoreButton(
-                                  backgroundColor: 0xFF000000,
-                                  fontColor: 0xFFFFFFFF,
-                                  callback: () {},
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.amber,
-                      padding: const EdgeInsets.only(
-                          right: 15, left: 15, bottom: 10),
-                      child: const Text(
-                        'EXPLORAR',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    ...cities[selectedCity].services.map(
+                        ),
+                        Container(
+                          // color: Colors.amber,
+                          padding: const EdgeInsets.only(
+                              right: 15, left: 15, bottom: 10),
+                          child: const Text(
+                            'EXPLORAR',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        ...cityState.city.services.map(
                           (e) => Container(
                             // color: Colors.blue,
                             padding: const EdgeInsets.only(
@@ -246,23 +253,25 @@ class _HomePageState extends State<HomePage> {
                               subtitle: e.cardDescription,
                               coverPhoto: e.coverPhoto,
                               callback: () {
-                                Navigator.pushNamed(context, '/servicepage');
+                                Navigator.pushNamed(
+                                  context,
+                                  '/servicepage',
+                                  arguments: {'service': e.name},
+                                );
                               },
                             ),
                           ),
                         ),
-                  ],
+                      ],
+                    );
+                  },
                 );
               } else {
-                return const Material(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  ),
+                return const CircularProgressIndicator(
+                  color: Colors.black,
                 );
               }
-            },
+            }),
           ),
         ),
       ),

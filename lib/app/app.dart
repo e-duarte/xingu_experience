@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:xingu_experience/app/models/city_state.dart';
 import 'package:xingu_experience/app/pages/event_page.dart';
 import 'package:xingu_experience/app/pages/home_page.dart';
 import 'package:xingu_experience/app/pages/hotel_page.dart';
@@ -11,20 +13,27 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Xingu Experience',
-      locale: const Locale('pt'),
-      // theme: ThemeData(primarySwatch: colorCustom),
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => const HomePage(),
-        '/userpage': (context) => const UserPage(),
-        '/hotelpage': (context) => const HotelPage(),
-        '/restaurantpage': (context) => const RestaurantPage(),
-        '/eventpage': (context) => const EventPage(),
-        '/servicepage': (context) => const ServicePage(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CityState(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Xingu Experience',
+        locale: const Locale('pt'),
+        // theme: ThemeData(primarySwatch: colorCustom),
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => const HomePage(),
+          '/userpage': (context) => const UserPage(),
+          '/hotelpage': (context) => const HotelPage(),
+          '/restaurantpage': (context) => const RestaurantPage(),
+          '/eventpage': (context) => const EventPage(),
+          '/servicepage': (context) => const ServicePage(),
+        },
+      ),
     );
   }
 }
