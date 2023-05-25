@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:xingu_experience/app/models/city_state.dart';
+import 'package:xingu_experience/app/models/cities_state.dart';
 import 'package:xingu_experience/app/pages/event_page.dart';
 import 'package:xingu_experience/app/pages/home_page.dart';
 import 'package:xingu_experience/app/pages/hotel_page.dart';
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => CityState(),
+          create: (context) => CitiesState(),
         )
       ],
       child: MaterialApp(

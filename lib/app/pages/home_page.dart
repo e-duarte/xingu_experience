@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xingu_experience/app/models/city.dart';
-import 'package:xingu_experience/app/models/city_state.dart';
+import 'package:xingu_experience/app/models/cities_state.dart';
 import 'package:xingu_experience/app/services/city_service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
-import 'package:xingu_experience/app/widgets/service_card.dart';
+import 'package:xingu_experience/app/widgets/cards.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return Consumer<CityState>(
-                    builder: (context, cityState, child) {
+                  return Consumer<CitiesState>(
+                    builder: (context, CitiesState, child) {
                       return AlertDialog(
                         title: const Text('Qual cidade você deseja explorar?'),
                         content: SizedBox(
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                               return ListTile(
                                 title: Text(cities[index].city),
                                 onTap: () {
-                                  cityState.updateCity(cities[index]);
+                                  CitiesState.updateCity(cities[index]);
                                   Navigator.pop(context);
                                   // setState(() {
                                   //   selectedCity = index;
@@ -156,35 +156,35 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          child: FutureBuilder<CityState>(
+          child: FutureBuilder<CitiesState>(
             future: CityService().all().then((value) {
-              Provider.of<CityState>(context, listen: false).cities = value;
-              return Provider.of<CityState>(context, listen: false);
+              Provider.of<CitiesState>(context, listen: false).cities = value;
+              return Provider.of<CitiesState>(context, listen: false);
             }),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                // CityState cityState = snapshot.data!;
-                return Consumer<CityState>(
-                  builder: (context, cityState, child) {
+                // CitiesState CitiesState = snapshot.data!;
+                return Consumer<CitiesState>(
+                  builder: (context, CitiesState, child) {
                     return ListView(
                       children: [
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(cityState.city.coverPhoto),
+                              image: NetworkImage(CitiesState.city.coverPhoto),
                               fit: BoxFit.cover,
                             ),
                           ),
                           child: Column(
                             children: [
                               Expanded(
-                                child: bar(cityState.cities),
+                                child: bar(CitiesState.cities),
                               ),
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
-                                child: cityName(cityState.city),
+                                child: cityName(CitiesState.city),
                               ),
                               Expanded(
                                 child: Container(
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        cityState.city.descripition,
+                                        CitiesState.city.descripition,
                                         style: const TextStyle(
                                           fontSize: 16,
                                         ),
@@ -243,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
-                        ...cityState.city.services.map(
+                        ...CitiesState.city.services.map(
                           (e) => Container(
                             // color: Colors.blue,
                             padding: const EdgeInsets.only(

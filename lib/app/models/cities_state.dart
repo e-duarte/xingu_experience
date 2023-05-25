@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xingu_experience/app/models/city.dart';
 
-class CityState extends ChangeNotifier {
+class CitiesState extends ChangeNotifier {
   List<City> _cities = [];
   City? _city;
   List<City> get cities => _cities;

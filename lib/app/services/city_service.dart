@@ -1,4 +1,5 @@
 import 'package:xingu_experience/app/models/city.dart';
+import 'package:xingu_experience/app/models/package.dart';
 import 'package:xingu_experience/app/models/service.dart';
 
 class CityService {
@@ -27,7 +28,35 @@ class CityService {
             description:
                 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
             photos: [],
-            packages: [],
+            packages: [
+              Package(
+                title: '1 dia de pesca esportiva',
+                organizer: 'Pedro Guia de Pesca',
+                avaluation: 5,
+                price: 400,
+                photos: [
+                  'https://media.istockphoto.com/id/1092160614/pt/foto/fisherman-with-rod-spinning-reel-on-the-river-bank-sunrise-fishing-for-pike-perch-carp-fog.jpg?s=612x612&w=0&k=20&c=Voi6veju6VFz1MHJMOcItH9YunBcuCQU52zeL0S3m1g='
+                ],
+              ),
+              Package(
+                title: '2 dia de pesca esportiva',
+                organizer: 'Yure Guia de Pesca',
+                avaluation: 3,
+                price: 600,
+                photos: [
+                  'https://media.istockphoto.com/id/479040586/pt/foto/pescador-moldagem-fora-sua-linha.jpg?s=612x612&w=0&k=20&c=JfpsRsGYiOx7-O-7ul2WNNhLkUdHda3itXHCc-6RAoo='
+                ],
+              ),
+              Package(
+                title: '2 dia de pesca esportiva',
+                organizer: 'Yure Guia de Pesca',
+                avaluation: 3,
+                price: 600,
+                photos: [
+                  'https://media.istockphoto.com/id/479040586/pt/foto/pescador-moldagem-fora-sua-linha.jpg?s=612x612&w=0&k=20&c=JfpsRsGYiOx7-O-7ul2WNNhLkUdHda3itXHCc-6RAoo='
+                ],
+              ),
+            ],
             cardTitle: 'Explore a pesca na região',
             cardDescription:
                 'Encontre os melhores pontos de pesca com os nossos guias parceiros',

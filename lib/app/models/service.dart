@@ -1,8 +1,10 @@
+import 'package:xingu_experience/app/models/package.dart';
+
 class Service {
   final String name;
   final String description;
   final List<String> photos;
-  final List<String> packages;
+  final List<Package> packages;
   final String cardTitle;
   final String cardDescription;
   final String coverPhoto;
