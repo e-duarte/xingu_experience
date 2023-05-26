@@ -63,7 +63,7 @@ class ServicePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
+            SizedBox(
               // color: Colors.amber,
               height: MediaQuery.of(context).size.height * 0.31,
               child: ListView(
@@ -71,13 +71,20 @@ class ServicePage extends StatelessWidget {
                 children: [
                   ...service.packages.map(
                     (p) => PackageCard(
-                      coverPhoto: p.photos[0],
+                      coverPhoto: p.coverPhoto,
                       title: p.title,
                       evaluation: p.avaluation,
                       organizer: p.organizer,
                       price: p.price,
                       callback: () {
-                        print('package');
+                        Navigator.pushNamed(
+                          context,
+                          '/packagepage',
+                          arguments: {
+                            'service': service.name,
+                            'package_id': p.id,
+                          },
+                        );
                       },
                     ),
                   ),

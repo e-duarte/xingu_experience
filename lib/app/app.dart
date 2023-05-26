@@ -4,6 +4,7 @@ import 'package:xingu_experience/app/models/cities_state.dart';
 import 'package:xingu_experience/app/pages/event_page.dart';
 import 'package:xingu_experience/app/pages/home_page.dart';
 import 'package:xingu_experience/app/pages/hotel_page.dart';
+import 'package:xingu_experience/app/pages/package_page.dart';
 import 'package:xingu_experience/app/pages/restaurant_page.dart';
 import 'package:xingu_experience/app/pages/service_page.dart';
 import 'package:xingu_experience/app/pages/user_page.dart';
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
           '/restaurantpage': (context) => const RestaurantPage(),
           '/eventpage': (context) => const EventPage(),
           '/servicepage': (context) => const ServicePage(),
+          '/packagepage': (context) => const PackagePage(),
         },
       ),
     );

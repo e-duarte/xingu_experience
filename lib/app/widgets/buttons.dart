@@ -36,7 +36,8 @@ class AdditionalServiceButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(5)),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(5)),
               backgroundColor:
                   MaterialStateProperty.all(Color(backgroundColor)),
             ),
