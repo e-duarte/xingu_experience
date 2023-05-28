@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xingu_experience/app/models/user.dart';
+import 'package:xingu_experience/app/services/user_service.dart';
 import 'package:xingu_experience/app/widgets/buttons.dart';
 import 'package:xingu_experience/app/widgets/evaluation.dart';
 
@@ -138,7 +140,7 @@ class PackageCard extends StatelessWidget {
                     title,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Evaluation(evaluationPoints: evaluation),
+                  EvaluationIcon(evaluationPoints: evaluation),
                   Text(organizer),
                   Text(
                     'a partir de R\$ $price',
@@ -149,6 +151,84 @@ class PackageCard extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class QuestionAndAnswersCard extends StatelessWidget {
+  const QuestionAndAnswersCard({
+    required this.user,
+    required this.avatar,
+    required this.publicationDate,
+    required this.comment,
+    required this.evaluation,
+    super.key,
+  });
+
+  final String user;
+  final String avatar;
+  final String publicationDate;
+  final int evaluation;
+  final String comment;
+
+  @override
+  Widget build(BuildContext context) {
+    const double rightPadding = 15;
+    const double leftPadding = 15;
+    const double topPadding = 10;
+    const double bottomPadding = 15;
+
+    final double spacingBetweenItems =
+        MediaQuery.of(context).size.height * 0.01;
+
+    return Container(
+      // height: double.infinity,
+      padding: const EdgeInsets.only(
+        left: leftPadding,
+        right: rightPadding,
+        top: topPadding,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(avatar),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.03,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  EvaluationIcon(evaluationPoints: evaluation)
+                ],
+              ),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.topRight,
+                  child: Text(publicationDate),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: spacingBetweenItems,
+          ),
+          Text(
+            comment,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+            textAlign: TextAlign.justify,
+            // overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

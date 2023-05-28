@@ -35,6 +35,12 @@ class CityService {
                 organizer: 'Pedro Guia de Pesca',
                 category: 'Pesca esportiva',
                 avaluation: 5,
+                description:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                duration: '1 dia',
+                idiom: 'Português',
+                cancel: true,
+                location: 'Rio Xingu',
                 price: 400,
                 coverPhoto:
                     'https://media.istockphoto.com/id/1092160614/pt/foto/fisherman-with-rod-spinning-reel-on-the-river-bank-sunrise-fishing-for-pike-perch-carp-fog.jpg?s=612x612&w=0&k=20&c=Voi6veju6VFz1MHJMOcItH9YunBcuCQU52zeL0S3m1g=',
@@ -43,6 +49,8 @@ class CityService {
                   'assets/images/pedro_2.png',
                   'assets/images/pedro_3.png'
                 ],
+                salesNumber: 150,
+                evaluationNumber: 100,
               ),
               Package(
                 id: 2,
@@ -50,10 +58,18 @@ class CityService {
                 organizer: 'Yure Guia de Pesca',
                 category: 'Pesca esportiva',
                 avaluation: 3,
+                description:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                duration: '1 dia',
+                idiom: 'Português',
+                cancel: true,
+                location: 'Rio Xingu',
                 price: 600,
                 coverPhoto:
                     'https://media.istockphoto.com/id/479040586/pt/foto/pescador-moldagem-fora-sua-linha.jpg?s=612x612&w=0&k=20&c=JfpsRsGYiOx7-O-7ul2WNNhLkUdHda3itXHCc-6RAoo=',
                 photos: [],
+                salesNumber: 150,
+                evaluationNumber: 100,
               ),
               Package(
                 id: 3,
@@ -61,10 +77,18 @@ class CityService {
                 organizer: 'Yure Guia de Pesca',
                 category: 'Pesca esportiva',
                 avaluation: 3,
+                duration: '1 dia',
+                description:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                idiom: 'Português',
+                cancel: true,
+                location: 'Rio Xingu',
                 price: 600,
                 coverPhoto:
                     'https://media.istockphoto.com/id/479040586/pt/foto/pescador-moldagem-fora-sua-linha.jpg?s=612x612&w=0&k=20&c=JfpsRsGYiOx7-O-7ul2WNNhLkUdHda3itXHCc-6RAoo=',
                 photos: [],
+                salesNumber: 150,
+                evaluationNumber: 100,
               ),
             ],
             cardTitle: 'Explore a pesca na região',

@@ -6,6 +6,7 @@ import 'package:xingu_experience/app/models/city.dart';
 import 'package:xingu_experience/app/models/package.dart';
 import 'package:xingu_experience/app/models/service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:xingu_experience/app/widgets/evaluation.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({super.key});
@@ -119,6 +120,9 @@ class _PackagePageState extends State<PackagePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.008,
+                ),
                 Text(
                   package.category,
                   style: const TextStyle(
@@ -133,9 +137,111 @@ class _PackagePageState extends State<PackagePage> {
                     // fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.008,
+                ),
+                Row(
+                  children: [
+                    EvaluationIcon(evaluationPoints: package.avaluation),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${package.salesNumber} vendidos',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${package.evaluationNumber} avaliações',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    primary: false,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 3,
+                    childAspectRatio: 1 / .2,
+                    // scrollDirection: Axis.vertical,
+                    children: [
+                      Text(
+                        'Duração: ${package.duration}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Idioma: ${package.idiom}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Cancelamento: ${package.cancel ? 'sim' : 'não'}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Local: ${package.location}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Center(
+                  child: Text(
+                    'Descrição',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                Text(
+                  package.description,
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 16,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.justify,
+                )
               ],
             ),
-          )
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          EvaluationAndAskManager(
+            packageId: package.id,
+          ),
         ],
       ),
       bottomNavigationBar: BottomPackageBar(
